@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HACKATHON — [EVENT NAME]</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #f8f5ee;
+    --bg2:     #efeae0;
+    --bg3:     #e8e2d6;
+    --surface: #e2dccf;
+    --border:        rgba(60,50,35,0.13);
+    --border-bright: rgba(60,50,35,0.24);
+    --accent:  #00c8a0;
+    --accent2: #ff2d78;
+    --accent-dim: rgba(0,200,160,0.12);
+    --accent-glow: rgba(0,200,160,0.25);
+    --accent2-glow: rgba(255, 45, 120,0.25);
+    --text:    #1a1610;
+    --muted:   #8a7e6e;
+    --muted2:  #5c5244;
+    --font-head: 'Crimson Pro', Georgia, serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-head);
+    font-weight: 300;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(245,242,235,1);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-head);
+    font-size: 17px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+
+  .nav-logo span {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 5px 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: var(--muted);
+    border-bottom: 1.5px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); border-bottom-color: var(--border-bright); }
+  .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .nav-cta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+    padding: 7px 18px;
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* faint ruled-paper lines */
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      transparent,
+      transparent 47px,
+      var(--border) 48px
+    );
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* waveform canvas sits behind content, positioned by JS to match title */
+  #waveCanvas {
+    mask-image: radial-gradient(ellipse 40% 60% at 50% 50%, rgba(0,0,0,0.1) 25%, black 70%);
+    position: absolute;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-eyebrow-line {
+    height: 1px;
+    width: 48px;
+    background: var(--border-bright);
+  }
+
+  .hero-eyebrow-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    color: var(--muted);
+  }
+
+  .hero-title {
+    position: relative;
+    font-family: var(--font-head);
+    font-size: clamp(3.8rem, 10vw, 8.5rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.75rem;
+    color: var(--text);
+  }
+
+  .hero-title .accent-word {
+    color: var(--accent);
+    font-weight: 300;
+  }
+
+  .hero-title .light-word {
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .hero-sub {
+    position: relative;
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--muted2);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-meta {
+    position: relative;
+    display: flex;
+    gap: 0;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    border: 1px solid var(--border);
+    background: rgba(245,242,235,0.7);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .hero-meta-item {
+    text-align: center;
+    padding: 1rem 2.2rem;
+    border-right: 1px solid var(--border);
+  }
+  .hero-meta-item:last-child { border-right: none; }
+
+  .hero-meta-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: lowercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .hero-meta-value {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .hero-buttons {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    padding: 13px 32px;
+    background: var(--accent2);
+    color: var(--bg);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: 400;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-ghost {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    padding: 12px 32px;
+    /*background: transparent;
+    color: var(--muted2);*/
+    background: var(--accent2);
+    color: var(--bg);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--muted2); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--muted);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(var(--accent), transparent);
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDrop {
+    0%,100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.9; transform: scaleY(1.15); }
+  }
+
+
+  /* ── WAVE DIVIDER ── */
+  .wave-divider {
+    display: flex;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 32px;
+    position: relative;
+  }
+
+  .wave-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.35;
+  }
+
+  .wave-divider-bars {
+    width: 20vw;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .wave-divider-bar {
+    width: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+    transform-origin: center;
+    opacity: 0.85;
+    animation-name: waveBarGrow;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+  }
+
+  .wave-divider.triggered .wave-divider-bar {
+    animation-play-state: running;
+  }
+
+  @keyframes waveBarGrow {
+    0%   { transform: scaleY(1); }
+    50%  { transform: scaleY(1.4); }
+    100% { transform: scaleY(1); }
+  }
+
+  /* ── ACCENT DIVIDER ── */
+  .section-divider {
+    border: none;
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 1px;
+    background: var(--border);
+    position: relative;
+    overflow: visible;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 6.5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: lowercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 32px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  .section-title {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    color: var(--text);
+  }
+
+  .section-desc {
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--muted2);
+    max-width: 560px;
+    line-height: 1.85;
+    margin-bottom: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .about-body {
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--muted2);
+    line-height: 1.85;
+    text-align: left;
+  }
+
+  .about-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .about-stat {
+    background: var(--bg2);
+    padding: 1.75rem;
+    transition: background 0.2s;
+  }
+
+  .about-stat:hover { background: var(--bg3); }
+
+  .about-stat-num {
+    font-family: var(--font-head);
+    font-size: 3rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .about-stat-num span { color: var(--accent); font-style: normal; font-family: var(--font-mono); font-size: 0.55em; }
+
+  .about-stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: lowercase;
+  }
+
+  /* ── WHO ── */
+  .who-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .who-card {
+    background: var(--bg2);
+    padding: 2rem 1.75rem;
+    transition: background 0.2s;
+    border-left: 2px solid transparent;
+  }
+
+  .who-card:hover {
+    background: var(--bg3);
+    border-left-color: var(--accent);
+  }
+
+  .who-card-glyph {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  .who-card-title {
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .who-card-desc {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted2);
+    line-height: 1.7;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    /*padding-left: 2rem;*/
+    text-align: left;
+
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--border-bright);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 0 0 2.5rem 2rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 10px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--muted);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .timeline-item:hover::before { border-color: var(--accent); }
+
+  .timeline-item.active::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+  }
+
+  .timeline-item.past::before {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 4px var(--accent2-glow);
+  }
+
+  .timeline-date {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: lowercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .timeline-title {
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .timeline-desc {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted2);
+    line-height: 1.7;
+  }
+
+  .timeline-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    padding: 3px 10px;
+    border-radius: 1px;
+    margin-top: 8px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(0,200,160,0.3);
+  }
+
+  .timeline-badge::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  /* ── CHALLENGES ── */
+  .challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    /*background: var(--accent2);*/
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .challenge-card {
+    background: var(--bg2);
+    /*background: var(--accent2-glow);*/
+    padding: 2rem;
+    transition: background 0.2s;
+    cursor: default;
+    position: relative;
+    text-align: left;
+  }
+
+  .challenge-card:hover { background: var(--bg3); }
+
+  .challenge-card:hover .challenge-num { color: var(--accent); }
+
+  .challenge-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+  }
+
+  .challenge-title {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  .challenge-desc {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted2);
+    line-height: 1.75;
+  }
+
+  .challenge-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1.25rem;
+  }
+
+  .challenge-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+    padding: 3px 10px;
+    border: 1px solid var(--border-bright);
+    border-radius: 1px;
+    color: var(--muted2);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .challenge-card:hover .challenge-tag {
+    border-color: rgba(0,200,160,0.25);
+    color: var(--muted2);
+  }
+
+  /* ── PRIZES ── */
+  .prizes-row {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1px;
+  }
+
+  .prize-card {
+    background: var(--bg2);
+    padding: 2.5rem 2rem;
+    position: relative;
+  }
+
+  .prize-card.first {
+    background: var(--bg3);
+    border-top: 2px solid var(--accent);
+  }
+
+  .prize-rank {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .prize-card.first .prize-rank { color: var(--accent); }
+
+  .prize-amount {
+    font-family: var(--font-head);
+    font-size: 3.2rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .prize-card.first .prize-amount { color: var(--accent); }
+
+  .prize-desc {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted2);
+    margin-top: 12px;
+    line-height: 1.75;
+  }
+
+  /* ── JUDGES ── */
+  .judges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .judge-card {
+    background: var(--bg2);
+    padding: 2rem 1.5rem;
+    transition: background 0.2s;
+    text-align: left;
+  }
+  .judge-card:hover { background: var(--bg3); }
+
+  .judge-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 2px;
+    background: var(--bg3);
+    border: 1px solid var(--border-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .judge-name {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .judge-role {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--muted2);
+    margin-bottom: 4px;
+  }
+
+  .judge-company {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+  }
+
+  /* ── SPONSORS ── */
+  .sponsors-tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sponsor-tier {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .sponsor-tier-header {
+    padding: 10px 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sponsor-tier-name {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    color: var(--muted2);
+  }
+
+  .sponsor-tier-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .gold .sponsor-tier-dot   { background: #9a7a20; }
+  .silver .sponsor-tier-dot { background: #7a8898; }
+  .bronze .sponsor-tier-dot { background: #8a6048; }
+
+  .sponsor-logos {
+    padding: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .sponsor-logo-placeholder {
+    height: 36px;
+    border: 1px solid var(--border-bright);
+    border-radius: 2px;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    color: var(--muted);
+    min-width: 120px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .gold .sponsor-logo-placeholder { min-width: 160px; height: 44px; font-size: 11px; }
+  .sponsor-logo-placeholder:hover { border-color: var(--muted2); color: var(--text); }
+
+  /* ── FAQ ── */
+  /*.faq-block {
+    position: relative;
+
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }*/
+
+  .faq-list {
+    list-style: none;
+    text-align: left;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .faq-q {
+    font-family: var(--font-head);
+    font-size: 17px;
+    font-weight: 400;
+    padding: 1.25rem 0;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    user-select: none;
+    list-style: none;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--accent); }
+
+  .faq-q::after {
+    content: '+';
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  details[open] .faq-q { color: var(--accent); border-bottom-color: transparent; }
+  details[open] .faq-q::after { transform: rotate(45deg); color: var(--accent); }
+
+  .faq-a {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--muted2);
+    line-height: 1.85;
+    padding: 0.5rem 0 1.5rem;
+    max-width: 680px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── REGISTER ── */
+  #register {
+    padding: 7rem 2rem;
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .register-box {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 4rem 3rem;
+    background: var(--bg2);
+  }
+
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 2rem;
+    text-align: left;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    color: var(--muted2);
+  }
+
+  .form-input {
+    background: var(--bg);
+    border: 1px solid var(--border-bright);
+    border-radius: 2px;
+    padding: 10px 14px;
+    font-family: var(--font-head);
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--accent); }
+  .form-input::placeholder { color: var(--muted); }
+
+  .form-select {
+    background: var(--bg);
+    border: 1px solid var(--border-bright);
+    border-radius: 2px;
+    padding: 10px 14px;
+    font-family: var(--font-head);
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  .form-select:focus { border-color: var(--accent); }
+
+  .form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.2s;
+  }
+  .form-submit:hover { opacity: 0.85; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted2);
+  }
+
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+
+  .footer-links a {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--muted2); }
+
+  .footer-copy { font-family: var(--font-mono); 
+    font-size: 10px; 
+    color: var(--muted);
+  }
+
+  @media (max-width: 720px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .prizes-row { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.25rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .register-box { padding: 2.5rem 1.5rem; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <!--li><a href="#who">who</a></li-->
+    <li><a href="#timeline">timeline</a></li>
+    <li><a href="#challenges">tracks</a></li>
+    <li><a href="#judges">judges</a></li>
+    <li><a href="#sponsors">sponsors</a></li>
+    <li><a href="#faq">faq</a></li>
+    <li><a href="mailto:hello@event.com">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <canvas id="waveCanvas"></canvas>
+
+
+  <h1 class="hero-title">
+    <span class="light-word">speak.</span><br>
+    <span class="accent-word">think.</span><br>
+    <span class="light-word">build.</span>
+  </h1>
+
+  <!--p class="hero-sub">Join us for [event name] hackathon in [city] on [date] and create something extraordinary.</p-->
+
+<div class="hero-buttons">
+    <button class="btn-primary" onclick="window.open('#', '_blank')">apply now</button>
+    <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">learn more</button>
+  </div>
+
+</div>
+
+<hr class="section-divider">
+
+<!-- ABOUT -->
+<section id="about">
+  <!--span class="section-label">01 — about</span-->
+  <h2 class="section-title">What is [Hackathon Name]?</h2>
+  <p class="section-desc">
+    [HACKATHON NAME] is a [48-hour / weekend-long] innovation marathon bringing together linguists, computational researchers, and engineers to tackle real-world language problems.
+  </p>
+  <p class="section-desc">
+    Whether you come from a fieldwork background or a machine learning lab, this is your arena. Teams of up to [N] will prototype, pitch, and compete across [N] challenge tracks — with mentorship from industry leaders every step of the way.
+  </p>
+</section>
+
+<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
+
+<!-- WHO -->
+<!--section id="who">
+  <span class="section-label">02 — who can participate</span>
+  <h2 class="section-title">Built for builders<br><em style="font-weight:300;color:var(--muted2)">of all kinds</em></h2>
+  <p class="section-desc">We welcome anyone passionate about language and technology. No prior hackathon experience required.</p>
+  <div class="who-cards">
+    <div class="who-card">
+      <div class="who-card-glyph">/lɪŋ/</div>
+      <div class="who-card-title">Linguists</div>
+      <div class="who-card-desc">Phonologists, syntacticians, field workers — your domain knowledge shapes the most grounded solutions.</div>
+    </div>
+    <div class="who-card">
+      <div class="who-card-glyph">NLP()</div>
+      <div class="who-card-title">Developers</div>
+      <div class="who-card-desc">ML engineers, full-stack, data scientists — bring the computational power to make ideas real.</div>
+    </div>
+    <div class="who-card">
+      <div class="who-card-glyph">∂x/∂t</div>
+      <div class="who-card-title">Researchers</div>
+      <div class="who-card-desc">Academia and industry researchers who want to prototype and test ideas beyond the lab.</div>
+    </div>
+    <div class="who-card">
+      <div class="who-card-glyph">UX ↔</div>
+      <div class="who-card-title">Designers</div>
+      <div class="who-card-desc">Human-centred designers who can make language technology usable by the people it serves.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider"-->
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <!--span class="section-label">03 — timeline</span-->
+  <h2 class="section-title">Key dates</h2>
+  <p class="section-desc">All times in [TIMEZONE]. Dates may be subject to change — registered participants will be notified.</p>
+  <div class="timeline">
+    <div class="timeline-item past">
+      <div class="timeline-date">[Month DD, YYYY]</div>
+      <div class="timeline-title">Applications Open</div>
+      <div class="timeline-desc">Registration portal goes live. Early applicants get priority review.</div>
+    </div>
+    <div class="timeline-item active">
+      <div class="timeline-date">[Month DD, YYYY]</div>
+      <div class="timeline-title">Team Formation Deadline</div>
+      <div class="timeline-desc">Solo applicants will be matched with complementary teammates. Teams of 2–4.</div>
+      <div class="timeline-badge">now open</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">[Month DD, YYYY]</div>
+      <div class="timeline-title">Applications Close</div>
+      <div class="timeline-desc">Final acceptance notifications sent within 5 business days.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">[Month DD, YYYY] — 10:00</div>
+      <div class="timeline-title">Opening Ceremony & Kickoff</div>
+      <div class="timeline-desc">Challenges revealed. Hacking begins. Mentors go live.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">[Month DD+1, YYYY] — 10:00</div>
+      <div class="timeline-title">Project Submissions Due</div>
+      <div class="timeline-desc">Submit your repo, demo link, and 2-minute video pitch.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">[Month DD+1, YYYY] — 14:00</div>
+      <div class="timeline-title">Demos & Judging</div>
+      <div class="timeline-desc">Top 10 teams present live. Winners announced at closing ceremony.</div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
+
+<!-- CHALLENGES -->
+<section id="challenges">
+  <!--span class="section-label">04 — challenges</span-->
+  <h2 class="section-title">Pick your track</h2>
+  <p class="section-desc">Two challenge tracks. One 48-hour window. Teams choose one track to compete in.</p>
+  <div class="challenges-grid">
+    <div class="challenge-card">
+      <div class="challenge-num">track_01</div>
+      <div class="challenge-title">[Track Name]</div>
+      <div class="challenge-desc">Describe the challenge in 1–2 sentences. What problem space? What output is expected?</div>
+    </div>
+    <div class="challenge-card">
+      <div class="challenge-num">track_02</div>
+      <div class="challenge-title">[Track Name]</div>
+      <div class="challenge-desc">Describe the challenge in 1–2 sentences. What problem space? What output is expected?</div>
+    </div>
+  </div>
+</section>
+
+
+<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
+
+<!-- JUDGES -->
+<section id="judges">
+  <!--span class="section-label">05 — judges & mentors</span-->
+  <h2 class="section-title">Meet the panel</h2>
+  <p class="section-desc">Industry leaders who will mentor teams during the event and evaluate final submissions.</p>
+  <div class="judges-grid">
+    <div class="judge-card">
+      <div class="judge-avatar">AB</div>
+      <div class="judge-name">[Name]</div>
+      <div class="judge-role">[Title]</div>
+      <div class="judge-company">[Company]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">CD</div>
+      <div class="judge-name">[Name]</div>
+      <div class="judge-role">[Title]</div>
+      <div class="judge-company">[Company]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">EF</div>
+      <div class="judge-name">[Name]</div>
+      <div class="judge-role">[Title]</div>
+      <div class="judge-company">[Company]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">GH</div>
+      <div class="judge-name">[Name]</div>
+      <div class="judge-role">[Title]</div>
+      <div class="judge-company">[Company]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">IJ</div>
+      <div class="judge-name">[Name]</div>
+      <div class="judge-role">[Title]</div>
+      <div class="judge-company">[Company]</div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
+
+<!-- SPONSORS -->
+<section id="sponsors">
+  <!--span class="section-label">06 — sponsors & partners</span-->
+  <h2 class="section-title">Made possible by</h2>
+  <p class="section-desc">Interested in sponsoring? <a href="mailto:sponsors@event.com" style="color:var(--accent);text-decoration:none;">Get in touch →</a></p>
+  <div class="judges-grid">
+    <div class="judge-card">
+      <div class="judge-avatar">A</div>
+      <div class="judge-name">[Sponsor Name]</div>
+      <div class="judge-role">[Brief description of the sponsor or their support]</div>
+      <div class="judge-company"><a href="#" style="color:var(--accent);text-decoration:none;">website →</a></div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">B</div>
+      <div class="judge-name">[Sponsor Name]</div>
+      <div class="judge-role">[Brief description of the sponsor or their support]</div>
+      <div class="judge-company"><a href="#" style="color:var(--accent);text-decoration:none;">website →</a></div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">C</div>
+      <div class="judge-name">[Sponsor Name]</div>
+      <div class="judge-role">[Brief description of the sponsor or their support]</div>
+      <div class="judge-company"><a href="#" style="color:var(--accent);text-decoration:none;">website →</a></div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">D</div>
+      <div class="judge-name">[Sponsor Name]</div>
+      <div class="judge-role">[Brief description of the sponsor or their support]</div>
+      <div class="judge-company"><a href="#" style="color:var(--accent);text-decoration:none;">website →</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
+
+<!-- FAQ -->
+<section id="faq">
+  <!--span class="section-label">07 — faq</span-->
+  <h2 class="section-title">Questions</h2>
+  <div class="faq-block">
+  <ul class="faq-list">
+    <details><summary class="faq-q">Is this event free to attend?</summary><p class="faq-a">Yes — participation is completely free. Food, drinks, and swag will be provided for the duration of the event.</p></details>
+    <details><summary class="faq-q">Who can participate?</summary><p class="faq-a">Anyone [describe eligibility — e.g. students, professionals, global, age limit]. No prior hackathon experience needed.</p></details>
+    <details><summary class="faq-q">What's the team size?</summary><p class="faq-a">Teams of 2 to 4 participants. Solo participants will have the option to join a team during the team-building session at kickoff.</p></details>
+    <details><summary class="faq-q">Can I work on a pre-existing project?</summary><p class="faq-a">No — all work must start after the opening ceremony. You may use open-source libraries and frameworks, but the core project must be new.</p></details>
+    <details><summary class="faq-q">Is there travel reimbursement?</summary><p class="faq-a">[Yes/No/Partial] — [details on reimbursement policy and how to apply if applicable].</p></details>
+    <details><summary class="faq-q">What should I bring?</summary><p class="faq-a">Your laptop, charger, headphones, and any hardware you'd like to work with. Overnight sleeping arrangements [are/are not] available — bring a pillow and blanket if you plan to stay.</p></details>
+    <details><summary class="faq-q">How will projects be judged?</summary><p class="faq-a">Projects are scored on: Technical implementation · Impact & novelty · Design & UX · Presentation quality. Judges will review all submissions before live demos from the top teams.</p></details>
+    <details><summary class="faq-q">Still have questions?</summary><p class="faq-a">Reach out at <a href="mailto:hello@event.com" style="color:var(--accent);text-decoration:none;">hello@event.com</a> or join our community channel [link].</p></details>
+  </ul></div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <!--div class="footer-logo">[Event Name] · [Year]</div-->
+  <!--ul class="footer-links">
+    <li><a href="#">code of conduct</a></li>
+    <li><a href="#">rules</a></li>
+    <li><a href="#">privacy</a></li>
+    <li><a href="mailto:hello@event.com">contact</a></li>
+  </ul-->
+  <div class="footer-copy">© [2026] [Organizer]. All rights reserved.</div>
+</footer>
+
+<script>
+/* ── Waveform / spectrogram animation ── */
+const canvas = document.getElementById('waveCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, t = 0, animId;
+
+function resize() {
+  const heroRect  = document.getElementById('hero').getBoundingClientRect();
+  const titleRect = document.querySelector('.hero-title').getBoundingClientRect();
+  // canvas spans full page width, height matches title height with some breathing room
+  const padding = titleRect.height * 0.5;
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = titleRect.height + padding * 2;
+  // position canvas so its vertical centre aligns with the title's vertical centre
+  const titleMidRelativeToHero = (titleRect.top + titleRect.height / 2) - heroRect.top;
+  canvas.style.width  = W + 'px';
+  canvas.style.top    = (titleMidRelativeToHero - H / 2) + 'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+function drawWave() {
+  ctx.clearRect(0, 0, W, H);
+  const cy = H / 2;
+
+  // slow color cycle between teal (#00c8a0) and pink (#ff2d78)
+  //const cycle = (Math.sin(t * 0.003) + 1) / 2; // 0..1
+  const cycle = (-Math.cos(t * 0.007) + 1) / 2;
+  const r = Math.round(0   + cycle * 255);
+  const g = Math.round(200 - cycle * 155);
+  const b = Math.round(160 - cycle * 40);
+
+  // inverted cycle for buttons
+  const cycleInv = 1 - cycle;
+  const rb = Math.round(0   + cycleInv * 255);
+  const gb = Math.round(200 - cycleInv * 155);
+  const bb = Math.round(160 - cycleInv * 40);
+
+  document.querySelector('.accent-word').style.color = `rgb(${r}, ${g}, ${b})`;
+  document.querySelectorAll('.btn-primary, .btn-ghost').forEach(el => {
+    el.style.background = `rgb(${rb}, ${gb}, ${bb})`;
+  });
+
+  const barW = 3;
+  const gap = 10;
+  const step = barW + gap;
+  const count = Math.floor(W / step);
+  const offsetX = (W - count * step) / 2;
+
+  for (let i = 0; i < count; i++) {
+    const bx = offsetX + i * step + barW / 2;
+    const norm = i / count;
+    const shape = Math.abs(Math.sin(norm * Math.PI * 3.2)) * 0.7
+                + Math.abs(Math.sin(norm * Math.PI * 1.7 + 1.3)) * 0.3;
+    const breathe = 0.5 + 0.5 * Math.sin(t * 0.04 + i * 0.9);
+    const amp = (shape * 0.6 + breathe * 0.4) * H * 0.18 + 4;
+    const halfH = Math.min(amp, H * 0.18);
+
+    const grad = ctx.createLinearGradient(0, cy - halfH, 0, cy + halfH);
+    grad.addColorStop(0,    `rgba(${r}, ${g}, ${b}, 0)`);
+    grad.addColorStop(0.12, `rgba(${r}, ${g}, ${b}, 0.85)`);
+    grad.addColorStop(0.5,  `rgba(${r}, ${g}, ${b}, 0.95)`);
+    grad.addColorStop(0.88, `rgba(${r}, ${g}, ${b}, 0.85)`);
+    grad.addColorStop(1,    `rgba(${r}, ${g}, ${b}, 0)`);
+
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.roundRect(bx - barW / 2, cy - halfH, barW, halfH * 2, 1.5);
+    ctx.fill();
+  }
+
+  t++;
+  animId = requestAnimationFrame(drawWave);
+}
+drawWave();
+
+/* stop animation when hero scrolls out of view (perf) */
+const hero = document.getElementById('hero');
+const visObs = new IntersectionObserver(([e]) => {
+  if (e.isIntersecting) { if (!animId) drawWave(); }
+  else { cancelAnimationFrame(animId); animId = null; }
+}, { threshold: 0 });
+visObs.observe(hero);
+
+/* ── Active nav link on scroll ── */
+const sections = document.querySelectorAll('section[id], div[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const navObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => navObs.observe(s));
+
+/* ── Wave divider setup + trigger ── */
+(function() {
+  const BAR_COUNT = 26;
+
+  function buildDividers() {
+    document.querySelectorAll('.wave-divider-bars').forEach(function(zone) {
+      zone.innerHTML = '';
+      for (var i = 0; i < BAR_COUNT; i++) {
+        var p = i / (BAR_COUNT - 1); // 0..1, no symmetry
+        // two independent sine components at inharmonic frequencies — no shared symmetry axis
+        var a = Math.pow(Math.abs(Math.sin(p * Math.PI * 5.3 + 0.4)), 0.45) * 0.55;
+        var b = Math.pow(Math.abs(Math.sin(p * Math.PI * 3.7 + 1.9)), 0.45) * 0.45;
+        var shape = a + b;
+        // edge fade: multiplier that goes from ~0.3 at ends to 1.0 in middle
+        var fade = 0.2 + 0.7 * Math.sin(p * Math.PI);
+        var barH = Math.max(2, fade * (0.03 + shape * 1.5) * 32);
+        var bar = document.createElement('span');
+        bar.className = 'wave-divider-bar';
+        bar.style.height = barH + 'px';
+        bar.style.animationDuration = '600ms';
+        bar.style.animationDelay = (i * 28) + 'ms';
+        zone.appendChild(bar);
+      }
+    });
+  }
+
+  buildDividers();
+
+  // IntersectionObserver: trigger once when divider enters viewport
+  var divObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !entry.target.classList.contains('triggered')) {
+        entry.target.classList.add('triggered');
+        divObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.wave-divider').forEach(function(d) {
+    divObs.observe(d);
+  });
+})();
+</script>
+</body>
+</html>
