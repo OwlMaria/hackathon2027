@@ -40,8 +40,10 @@
 
   /* ── NAV ── */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
+    /*position: fixed;
+    top: 0; left: 0; right: 0;*/
+    position: sticky;
+    top: 0;
     z-index: 100;
     padding: 0 2rem;
     height: 60px;
@@ -120,7 +122,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 80px 2rem 4rem;
+    padding: 30px 2rem 4rem;
     position: relative;
     overflow: hidden;
   }
@@ -152,7 +154,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .hero-eyebrow-line {
@@ -163,7 +165,7 @@
 
   .hero-eyebrow-text {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.2em;
     text-transform: lowercase;
     color: var(--muted);
@@ -172,12 +174,12 @@
   .hero-title {
     position: relative;
     font-family: var(--font-head);
-    font-size: clamp(3.8rem, 10vw, 8.5rem);
+    font-size: clamp(3.8rem, 10vw, 7.0rem);
     font-weight: 300;
     font-style: italic;
     line-height: 1.0;
     letter-spacing: -0.01em;
-    margin-bottom: 1.75rem;
+    margin-bottom: 2.75rem;
     color: var(--text);
   }
 
@@ -189,6 +191,7 @@
   .hero-title .light-word {
     color: var(--muted);
     font-weight: 300;
+    font-style: normal
   }
 
   .hero-sub {
@@ -416,11 +419,15 @@
     font-size: 16px;
     font-weight: 300;
     color: var(--muted2);
-    max-width: 560px;
+    max-width: 700px;
     line-height: 1.85;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .text-link {
+    color: var(--accent2);
   }
 
   /* ── ABOUT ── */
@@ -528,6 +535,7 @@
   }
 
   /* ── TIMELINE ── */
+
   .timeline {
     position: relative;
     /*padding-left: 2rem;*/
@@ -784,7 +792,8 @@
   /* ── JUDGES ── */
   .judges-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    /*grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));*/
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
@@ -796,7 +805,8 @@
     background: var(--bg2);
     padding: 2rem 1.5rem;
     transition: background 0.2s;
-    text-align: left;
+    align-items: center;
+    display: flex; flex-direction: column;
   }
   .judge-card:hover { background: var(--bg3); }
 
@@ -822,7 +832,7 @@
     font-size: 15px;
     font-weight: 600;
     color: var(--accent2);
-    margin-bottom: 3px;
+    margin-bottom: 1px;
   }
 
   .judge-role {
@@ -963,8 +973,48 @@
     max-width: 680px;
     border-bottom: 1px solid var(--border);
   }
-
+  /* ── NEWSLETTER ── */
+  .newsletter-form {
+    display: flex;
+    gap: 0;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+ 
+  .newsletter-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--accent2);
+    border-right: none;
+    border-radius: 2px 0 0 2px;
+    padding: 10px 14px;
+    font-family: var(--font-head);
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .newsletter-input::placeholder { color: var(--muted); }
+ 
+  .newsletter-btn {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    padding: 10px 24px;
+    background: var(--accent2);
+    color: var(--bg);
+    border: none;
+    border-radius: 0 2px 2px 0;
+    cursor: pointer;
+    font-weight: 400;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .newsletter-btn:hover { opacity: 0.85; }
+ 
   /* ── REGISTER ── */
+
   #register {
     padding: 7rem 2rem;
     text-align: center;
@@ -1084,7 +1134,12 @@
     color: var(--muted);
   }
 
+  @media (max-width: 900px) {
+    .judges-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
   @media (max-width: 720px) {
+    .judges-grid { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; }
     .prizes-row { grid-template-columns: 1fr; }
     nav { padding: 0 1rem; }
@@ -1099,25 +1154,15 @@
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <ul class="nav-links">
-    <li><a href="#about">about</a></li>
-    <!--li><a href="#who">who</a></li-->
-    <li><a href="#timeline">timeline</a></li>
-    <li><a href="#challenges">tracks</a></li>
-    <li><a href="#judges">judges</a></li>
-    <li><a href="#sponsors">sponsors</a></li>
-    <li><a href="#faq">faq</a></li>
-    <li><a href="mailto:hello@event.com">contact</a></li>
-  </ul>
-</nav>
+
 
 <!-- HERO -->
 <div id="hero">
   <canvas id="waveCanvas"></canvas>
 
-
+  <div class="hero-eyebrow">
+    <span class="hero-eyebrow-text">[ Spring 2027 ] — [ Germany ]</span>
+  </div>
   <h1 class="hero-title">
     <span class="light-word">CoLi</span><br>
     <span class="accent-word">hackathon</span><br>
@@ -1133,17 +1178,38 @@
 
 </div>
 
+<!-- NAV -->
+<nav>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    
+    <li><a href="#timeline">timeline</a></li>
+    <li><a href="#challenges">tracks</a></li>
+    <li><a href="#team">team</a></li>
+    <li><a href="#judges">judges</a></li>
+    <li><a href="#sponsors">sponsors</a></li>
+    <li><a href="#faq">faq</a></li>
+    <li><a href="#newsletter">newsletter</a></li>
+  </ul>
+</nav>
+
 <hr class="section-divider">
 
 <!-- ABOUT -->
 <section id="about">
   <!--span class="section-label">01 — about</span-->
-  <h2 class="section-title">What is [Hackathon Name]?</h2>
+  <h2 class="section-title">What's CoLi hackathon weekend?</h2>
   <p class="section-desc">
-    [HACKATHON NAME] is a [48-hour / weekend-long] innovation marathon bringing together linguists, computational researchers, and engineers to tackle real-world language problems.
+    Talking about ideas at a conference is great, but building something together hits different. This hackathon is a chance to step out of the classroom and spend two days actually creating things with other people from the computational linguistics community.
   </p>
   <p class="section-desc">
-    Whether you come from a fieldwork background or a machine learning lab, this is your arena. Teams of up to [N] will prototype, pitch, and compete across [N] challenge tracks — with mentorship from industry leaders every step of the way.
+    The selection of hackathon tasks will allow for both application-focused and research-focused projects. At the end, teams will share what they've been working on - whether it's a working prototype or research conclusions.
+  </p>
+  <p class="section-desc">
+    You don't need a specific background to join. Whether you're into development, research, design, or just curious about language and technology, you're welcome here. You can come with a team or find one on the spot and we'll make sure that your work is supported by mentors' feedback.
+  </p>
+  <p class="section-desc">
+    More details about schedule and logistics are coming soon. This page will be updated as things take shape or, if you don't trust yourself to open it again, join our <a class="text-link" href="#newsletter">Newsletter</a> to recieve the updates directly in your inbox! :)
   </p>
 </section>
 
@@ -1250,6 +1316,54 @@
 
 <div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
 
+<!-- TEAM -->
+<section id="team">
+  <!--span class="section-label">05 — judges & mentors</span-->
+  <h2 class="section-title">Meet the team</h2>
+  <p class="section-desc">The hackathon is brought to you by volunteers from the computational linguistics community involved in many student and research initiatives in the field, including past TaCoS conferences.</p>
+  <p class="section-desc">Maria's thoughts: the grid with photos won't look good here and just names kinda imply that people should know us, lol. I kinda really want a digital cartoonish group portrait, but not sure if that's menageble and reasonable, so just putting it out there for now...</p>
+  <div class="judges-grid">
+    <div class="judge-card">
+      <div class="judge-avatar">AB</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">CD</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">EF</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">GH</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">IJ</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">IJ</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">IJ</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">IJ</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+    <div class="judge-card">
+      <div class="judge-avatar">IJ</div>
+      <div class="judge-name">[Name]</div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
+
 <!-- JUDGES -->
 <section id="judges">
   <!--span class="section-label">05 — judges & mentors</span-->
@@ -1343,6 +1457,19 @@
   </ul></div>
 </section>
 
+<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
+
+<!-- Newsletter -->
+<section id="newsletter">
+  <h2 class="section-title">Stay in the loop</h2>
+  <p class="section-desc">
+    Leave your email and we'll keep you posted about registration, schedule and other hackathon news:
+  </p>
+  <form class="newsletter-form" action="https://formspree.io/f/xxxxxxxx" method="POST">
+    <input class="newsletter-input" type="email" name="email" placeholder="your@email.com" required>
+    <button class="newsletter-btn" type="submit">notify me →</button>
+  </form>
+</section>
 
 <!-- FOOTER -->
 <footer>
