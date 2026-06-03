@@ -60,7 +60,7 @@ nav {
 .nav-logo span {
     font-family: var(--font-mono);
     font-style: normal;
-    font-size: 11px;
+    font-size: 12px;
     color: var(--accent);
     letter-spacing: 0.06em;
     margin-left: 6px;
@@ -80,7 +80,7 @@ nav {
     display: block;
     padding: 5px 12px;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.07em;
     text-transform: lowercase;
     text-decoration: none;
@@ -220,7 +220,7 @@ nav {
 
 .hero-meta-label {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.15em;
     text-transform: lowercase;
     color: var(--muted);
@@ -288,7 +288,7 @@ nav {
     align-items: center;
     gap: 8px;
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.18em;
     text-transform: lowercase;
     color: var(--muted);
@@ -378,7 +378,7 @@ section {
 
 .section-label {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.25em;
     text-transform: lowercase;
     color: var(--accent);
@@ -583,7 +583,7 @@ section {
 
 .timeline-date {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.15em;
     text-transform: lowercase;
     color: var(--muted);
@@ -611,7 +611,7 @@ section {
     align-items: center;
     gap: 6px;
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.12em;
     text-transform: lowercase;
     padding: 3px 10px;
@@ -678,7 +678,7 @@ section {
 
 .challenge-num {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.2em;
     color: var(--muted);
     margin-bottom: 1rem;
@@ -751,7 +751,7 @@ section {
 
 .prize-rank {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.2em;
     text-transform: lowercase;
     color: var(--muted);
@@ -830,7 +830,7 @@ section {
 
 .judge-role {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     /*font-style: italic;*/
     font-weight: 300;
     color: var(--muted2);
@@ -839,7 +839,7 @@ section {
 
 .judge-company {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     color: var(--muted);
     letter-spacing: 0.06em;
     text-transform: lowercase;
@@ -869,7 +869,7 @@ section {
 
 .sponsor-tier-name {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.2em;
     text-transform: lowercase;
     color: var(--muted2);
@@ -897,7 +897,7 @@ section {
     align-items: center;
     justify-content: center;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.12em;
     text-transform: lowercase;
     color: var(--muted);
@@ -991,7 +991,7 @@ details[open] .faq-q::after { transform: rotate(45deg); color: var(--accent); }
 
 .newsletter-btn {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.12em;
     text-transform: lowercase;
     padding: 10px 24px;
@@ -1036,7 +1036,7 @@ details[open] .faq-q::after { transform: rotate(45deg); color: var(--accent); }
 
 .form-label {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.12em;
     text-transform: lowercase;
     color: var(--muted2);
@@ -1078,7 +1078,7 @@ details[open] .faq-q::after { transform: rotate(45deg); color: var(--accent); }
     border: none;
     border-radius: 2px;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.12em;
     text-transform: lowercase;
@@ -1113,7 +1113,7 @@ footer {
 
 .footer-links a {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: lowercase;
     text-decoration: none;
@@ -1123,7 +1123,7 @@ footer {
 .footer-links a:hover { color: var(--muted2); }
 
 .footer-copy { font-family: var(--font-mono); 
-    font-size: 10px; 
+    font-size: 12px; 
     color: var(--muted);
 }
 

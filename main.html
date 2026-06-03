@@ -25,7 +25,7 @@
 
 <div class="hero-buttons">
     <button class="btn-primary" onclick="window.open('#', '_blank')">apply now</button>
-    <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">learn more</button>
+    <button class="btn-primary" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">learn more</button>
   </div>
 
 </div>
@@ -38,7 +38,7 @@
     <li><a href="#timeline">timeline</a></li>
     <li><a href="#challenges">tracks</a></li>
     <li><a href="#team">team</a></li>
-    <li><a href="#judges">judges</a></li>
+    <!--li><a href="#judges">judges</a></li-->
     <li><a href="#sponsors">sponsors</a></li>
     <li><a href="#faq">faq</a></li>
     <li><a href="#newsletter">newsletter</a></li>
@@ -113,7 +113,7 @@
       <div class="timeline-date">[Month DD, YYYY]</div>
       <div class="timeline-title">Team Formation Deadline</div>
       <div class="timeline-desc">Solo applicants will be matched with complementary teammates. Teams of 2–4.</div>
-      <div class="timeline-badge">now open</div>
+      <!--div class="timeline-badge">now open</div-->
     </div>
     <div class="timeline-item">
       <div class="timeline-date">[Month DD, YYYY]</div>
@@ -144,7 +144,8 @@
 <section id="challenges">
   <!--span class="section-label">04 — challenges</span-->
   <h2 class="section-title">Pick your track</h2>
-  <p class="section-desc">Two challenge tracks. One 48-hour window. Teams choose one track to compete in.</p>
+  <!--p class="section-desc">Two challenge tracks. One 48-hour window. Teams choose one track to compete in.</p-->
+  <p class="section-desc"></p> <!-- for proper spacing -->
   <div class="challenges-grid">
     <div class="challenge-card">
       <canvas class="ipa-rain-canvas" id="ipaCanvas"></canvas>
@@ -217,8 +218,8 @@
 <div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
 
 <!-- JUDGES -->
-<section id="judges">
-  <!--span class="section-label">05 — judges & mentors</span-->
+<!--section id="judges">
+  <span class="section-label">05 — judges & mentors</span>
   <h2 class="section-title">Meet the panel</h2>
   <p class="section-desc">Industry leaders who will mentor teams during the event and evaluate final submissions.</p>
   <div class="judges-grid">
@@ -255,7 +256,7 @@
   </div>
 </section>
 
-<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div>
+<div class="wave-divider"><span class="wave-divider-line"></span><div class="wave-divider-bars"></div><span class="wave-divider-line"></span></div-->
 
 <!-- SPONSORS -->
 <section id="sponsors">
@@ -315,7 +316,9 @@
 <section id="newsletter">
   <h2 class="section-title">Stay in the loop</h2>
   <p class="section-desc">
-    Leave your email and we'll keep you posted about registration, schedule and other hackathon news:
+    Got ideas or need more info? Reach out to us at [email] and we'll be happy to help!
+    <br>
+    Otherwise, leave your email and we'll keep you posted about registration, schedule and other hackathon news:
   </p>
   <form class="newsletter-form" action="https://formspree.io/f/xxxxxxxx" method="POST">
     <input class="newsletter-input" type="email" name="email" placeholder="your@email.com" required>
