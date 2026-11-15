@@ -1109,6 +1109,11 @@ footer {
     color: var(--muted);
 }
 
+u {
+    text-decoration: underline;
+    color: var(--accent2);
+}
+
 @media (max-width: 900px) {
     .judges-grid { grid-template-columns: repeat(2, 1fr); }
 }
