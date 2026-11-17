@@ -407,6 +407,10 @@ section {
     margin-right: auto;
 }
 
+.team-portrait {
+    max-width: 700px;
+}
+
 .text-link {
     color: var(--accent2);
 }
