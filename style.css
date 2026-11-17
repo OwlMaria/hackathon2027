@@ -144,7 +144,7 @@ nav {
 }
 
 /* waveform canvas sits behind content, positioned by JS to match title */
-#waveCanvas {
+#waveCanvasLandscape {
     mask-image: radial-gradient(ellipse 40% 60% at 50% 50%, rgba(0,0,0,0.07) 48%, black 70%);
     position: absolute;
     left: 0;

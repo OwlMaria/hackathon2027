@@ -1,5 +1,5 @@
 /* ── Waveform / spectrogram animation ── */
-const canvas = document.getElementById('waveCanvas');
+const canvas = document.getElementById('waveCanvasLandscape');
 const ctx = canvas.getContext('2d');
 let W, H, t = 0, animId;
 
