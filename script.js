@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 let W, H, t = 0, animId;
 
 function resize() {
-  const heroRect  = document.getElementById('hero').getBoundingClientRect();
+  const heroRect  = document.getElementById('hero-landscape').getBoundingClientRect();
   const titleRect = document.querySelector('.hero-title').getBoundingClientRect();
   // canvas spans full page width, height matches title height with some breathing room
   const padding = titleRect.height * 0.5;
