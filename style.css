@@ -118,6 +118,7 @@ nav {
 }
 
 #hero-portrait {
+    --wave-reach: 5.5rem;
     min-height: 100vh;
     display: none;
     flex-direction: column;
@@ -151,6 +152,12 @@ nav {
     pointer-events: none;
 }
 
+#waveCanvasPortrait {
+    position: absolute;
+    left: 0;
+    pointer-events: none;
+}
+
 .hero-eyebrow {
     position: relative;
     display: flex;
@@ -173,7 +180,7 @@ nav {
     color: var(--muted);
 }
 
-.hero-title {
+.hero-title-landscape {
     position: relative;
     font-family: var(--font-head);
     font-size: clamp(3.8rem, 10vw, 7.0rem);
@@ -185,12 +192,37 @@ nav {
     color: var(--text);
 }
 
-.hero-title .accent-word {
+.hero-title-portrait {
+    position: relative;
+    font-family: var(--font-head);
+    font-size: clamp(3.8rem, 10vw, 7.0rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    margin: var(--wave-reach) 0;
+    color: var(--text);
+}
+
+#hero-portrait .hero-eyebrow { margin-bottom: 0; }
+
+.hero-title-landscape .accent-word {
     color: var(--accent);
     font-weight: 300;
 }
 
-.hero-title .light-word {
+.hero-title-landscape .light-word {
+    color: var(--muted);
+    font-weight: 300;
+    font-style: normal
+}
+
+.hero-title-portrait .accent-word {
+    color: var(--accent);
+    font-weight: 300;
+}
+
+.hero-title-portrait .light-word {
     color: var(--muted);
     font-weight: 300;
     font-style: normal

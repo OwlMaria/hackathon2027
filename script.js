@@ -1,85 +1,331 @@
 /* ── Waveform / spectrogram animation ── */
-const canvas = document.getElementById('waveCanvasLandscape');
-const ctx = canvas.getContext('2d');
-let W, H, t = 0, animId;
+/*const canvas = document.getElementById('waveCanvasLandscape');
+const ctx = canvas.getContext('2d');*/
+//const isPortrait = window.matchMedia('(max-width: 720px)').matches;
+//const canvas = document.getElementById(
+//    isPortrait ? 'waveCanvasPortrait' : 'waveCanvasLandscape'
+//);
+//const ctx = canvas.getContext('2d');
+//let W, H, t = 0, animId;
 
-function resize() {
-  const heroRect  = document.getElementById('hero-landscape').getBoundingClientRect();
-  const titleRect = document.querySelector('.hero-title').getBoundingClientRect();
+//function resize() {
+  /*const heroRect  = document.getElementById('hero-landscape').getBoundingClientRect();
+  const titleRect = document.querySelector('.hero-title').getBoundingClientRect();*/
+//  const hero = document.getElementById(
+//    isPortrait ? 'hero-portrait' : 'hero-landscape');
+//  const heroRect = hero.getBoundingClientRect();
+//  const titleRect = hero.querySelector(
+//    isPortrait ? '.hero-title-portrait' : '.hero-title-landscape'
+//  ).getBoundingClientRect();
+  /*const titleRect = hero.querySelector('.hero-title').getBoundingClientRect();*/
   // canvas spans full page width, height matches title height with some breathing room
-  const padding = titleRect.height * 0.5;
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = titleRect.height + padding * 2;
+//  const padding = titleRect.height * 0.5;
+//  W = canvas.width  = window.innerWidth;
+//  H = canvas.height = titleRect.height + padding * 2;
   // position canvas so its vertical centre aligns with the title's vertical centre
-  const titleMidRelativeToHero = (titleRect.top + titleRect.height / 2) - heroRect.top;
-  canvas.style.width  = W + 'px';
-  canvas.style.top    = (titleMidRelativeToHero - H / 2) + 'px';
-}
-resize();
-window.addEventListener('resize', resize);
+//  const titleMidRelativeToHero = (titleRect.top + titleRect.height / 2) - heroRect.top;
+//  canvas.style.width  = W + 'px';
+//  canvas.style.top    = (titleMidRelativeToHero - H / 2) + 'px';
+//}
+//resize();
+//window.addEventListener('resize', resize);
 
-function drawWave() {
-  ctx.clearRect(0, 0, W, H);
-  const cy = H / 2;
+//function drawWave() {
+//  ctx.clearRect(0, 0, W, H);
+//  const cy = H / 2;
 
   // slow color cycle between teal (#00c8a0) and pink (#ff2d78)
-  //const cycle = (Math.sin(t * 0.003) + 1) / 2; // 0..1
-  const cycle = (-Math.cos(t * 0.007) + 1) / 2;
-  const r = Math.round(0   + cycle * 255);
-  const g = Math.round(200 - cycle * 155);
-  const b = Math.round(160 - cycle * 40);
+//  const cycle = (-Math.cos(t * 0.007) + 1) / 2;
+//  const r = Math.round(0   + cycle * 255);
+//  const g = Math.round(200 - cycle * 155);
+//  const b = Math.round(160 - cycle * 40);
 
   // inverted cycle for buttons
-  const cycleInv = 1 - cycle;
-  const rb = Math.round(0   + cycleInv * 255);
-  const gb = Math.round(200 - cycleInv * 155);
-  const bb = Math.round(160 - cycleInv * 40);
+//  const cycleInv = 1 - cycle;
+//  const rb = Math.round(0   + cycleInv * 255);
+//  const gb = Math.round(200 - cycleInv * 155);
+//  const bb = Math.round(160 - cycleInv * 40);
 
-  document.querySelector('.accent-word').style.color = `rgb(${r}, ${g}, ${b})`;
-  document.querySelectorAll('.btn-primary, .btn-ghost').forEach(el => {
-    el.style.background = `rgb(${rb}, ${gb}, ${bb})`;
-  });
+//  document.querySelector('.accent-word').style.color = `rgb(${r}, ${g}, ${b})`;
+//  document.querySelectorAll('.btn-primary, .btn-ghost').forEach(el => {
+//    el.style.background = `rgb(${rb}, ${gb}, ${bb})`;
+//  });
 
-  const barW = 3;
-  const gap = 10;
-  const step = barW + gap;
-  const count = Math.floor(W / step);
-  const offsetX = (W - count * step) / 2;
+//  const barW = 3;
+//  const gap = 10;
+//  const step = barW + gap;
+//  const count = Math.floor(W / step);
+//  const offsetX = (W - count * step) / 2;
 
-  for (let i = 0; i < count; i++) {
-    const bx = offsetX + i * step + barW / 2;
-    const norm = i / count;
-    const shape = Math.abs(Math.sin(norm * Math.PI * 3.2)) * 0.7
-                + Math.abs(Math.sin(norm * Math.PI * 1.7 + 1.3)) * 0.3;
-    const breathe = 0.5 + 0.5 * Math.sin(t * 0.04 + i * 0.9);
-    const amp = (shape * 0.6 + breathe * 0.4) * H * 0.18 + 4;
-    const halfH = Math.min(amp, H * 0.18);
+//  for (let i = 0; i < count; i++) {
+//    const bx = offsetX + i * step + barW / 2;
+//    const norm = i / count;
+//    const shape = Math.abs(Math.sin(norm * Math.PI * 3.2)) * 0.7
+//                + Math.abs(Math.sin(norm * Math.PI * 1.7 + 1.3)) * 0.3;
+//    const breathe = 0.5 + 0.5 * Math.sin(t * 0.04 + i * 0.9);
+//    const amp = (shape * 0.6 + breathe * 0.4) * H * 0.18 + 4;
+//    const halfH = Math.min(amp, H * 0.18);
 
-    const grad = ctx.createLinearGradient(0, cy - halfH, 0, cy + halfH);
-    grad.addColorStop(0,    `rgba(${r}, ${g}, ${b}, 0)`);
-    grad.addColorStop(0.12, `rgba(${r}, ${g}, ${b}, 0.85)`);
-    grad.addColorStop(0.5,  `rgba(${r}, ${g}, ${b}, 0.95)`);
-    grad.addColorStop(0.88, `rgba(${r}, ${g}, ${b}, 0.85)`);
-    grad.addColorStop(1,    `rgba(${r}, ${g}, ${b}, 0)`);
+//    const grad = ctx.createLinearGradient(0, cy - halfH, 0, cy + halfH);
+//    grad.addColorStop(0,    `rgba(${r}, ${g}, ${b}, 0)`);
+//    grad.addColorStop(0.12, `rgba(${r}, ${g}, ${b}, 0.85)`);
+//    grad.addColorStop(0.5,  `rgba(${r}, ${g}, ${b}, 0.95)`);
+//    grad.addColorStop(0.88, `rgba(${r}, ${g}, ${b}, 0.85)`);
+//    grad.addColorStop(1,    `rgba(${r}, ${g}, ${b}, 0)`);
+//
+//    ctx.fillStyle = grad;
+//    ctx.beginPath();
+//    ctx.roundRect(bx - barW / 2, cy - halfH, barW, halfH * 2, 1.5);
+//    ctx.fill();
+//  }
 
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.roundRect(bx - barW / 2, cy - halfH, barW, halfH * 2, 1.5);
-    ctx.fill();
-  }
-
-  t++;
-  animId = requestAnimationFrame(drawWave);
-}
-drawWave();
+//  t++;
+//  animId = requestAnimationFrame(drawWave);
+//}
+//drawWave();
 
 /* stop animation when hero scrolls out of view (perf) */
-const hero = document.getElementById('hero');
-const visObs = new IntersectionObserver(([e]) => {
-  if (e.isIntersecting) { if (!animId) drawWave(); }
-  else { cancelAnimationFrame(animId); animId = null; }
-}, { threshold: 0 });
-visObs.observe(hero);
+//const hero = document.getElementById('hero-landscape');
+//const visObs = new IntersectionObserver(([e]) => {
+//  if (e.isIntersecting) { if (!animId) drawWave(); }
+//  else { cancelAnimationFrame(animId); animId = null; }
+//}, { threshold: 0 });
+//visObs.observe(hero);*/
+
+/* ── Waveform / spectrogram animation (landscape + portrait) ──
+   Paste this over the old block in script.js: everything from
+   "/* ── Waveform / spectrogram animation ── *\/" down to "visObs.observe(hero);".
+
+   It is wrapped in a function so none of its variables are global; that way
+   they cannot clash with anything else in script.js (the IPA rain code, etc).
+
+   Overview:
+   1. Shared pieces: breakpoint, bar look, colour cycle.
+   2. makeLandscape(): your original wave, unchanged in behaviour.
+   3. makePortrait():  the wave cut along the horizontal axis (upper + lower half).
+   4. A small "switcher" that picks the right one from the window width, restarts
+      the animation loop, and re-points the observers whenever the width crosses 720px. */
+      (function () {
+
+        /* ── 1. Shared pieces ── */
+      
+        // Same breakpoint as your CSS (@media (max-width: 720px) shows #hero-portrait).
+        const mq = window.matchMedia('(max-width: 720px)');
+      
+        const BAR_W = 3;
+        const GAP   = 10;
+        const STEP  = BAR_W + GAP;
+      
+        // Buttons are recoloured page-wide, exactly as before (both heroes' buttons included).
+        const buttons = document.querySelectorAll('.btn-primary, .btn-ghost');
+      
+        // Slow colour cycle between teal (#00c8a0) and pink (#ff2d78), plus its inverse for buttons.
+        function getColors(t) {
+          const cycle = (-Math.cos(t * 0.007) + 1) / 2;
+          const inv   = 1 - cycle;
+          return {
+            r:  Math.round(0   + cycle * 255),
+            g:  Math.round(200 - cycle * 155),
+            b:  Math.round(160 - cycle * 40),
+            rb: Math.round(0   + inv * 255),
+            gb: Math.round(200 - inv * 155),
+            bb: Math.round(160 - inv * 40)
+          };
+        }
+      
+        /* ── 2. Landscape: your original wave ── */
+      
+        function makeLandscape() {
+          const hero   = document.getElementById('hero-landscape');
+          const canvas = document.getElementById('waveCanvasLandscape');
+          const ctx    = canvas.getContext('2d');
+          const title  = hero.querySelector('.hero-title-landscape');
+          let W, H;
+      
+          function resize() {
+            const heroRect  = hero.getBoundingClientRect();
+            const titleRect = title.getBoundingClientRect();
+            // canvas spans full page width, height matches title height with some breathing room
+            const padding = titleRect.height * 0.5;
+            W = canvas.width  = window.innerWidth;
+            H = canvas.height = titleRect.height + padding * 2;
+            // position canvas so its vertical centre aligns with the title's vertical centre
+            const titleMidRelativeToHero = (titleRect.top + titleRect.height / 2) - heroRect.top;
+            canvas.style.width = W + 'px';
+            canvas.style.top   = (titleMidRelativeToHero - H / 2) + 'px';
+          }
+      
+          function draw(t, c) {
+            ctx.clearRect(0, 0, W, H);
+            const cy = H / 2;
+      
+            const count   = Math.floor(W / STEP);
+            const offsetX = (W - count * STEP) / 2;
+      
+            for (let i = 0; i < count; i++) {
+              const bx   = offsetX + i * STEP + BAR_W / 2;
+              const norm = i / count;
+              const shape = Math.abs(Math.sin(norm * Math.PI * 3.2)) * 0.7
+                          + Math.abs(Math.sin(norm * Math.PI * 1.7 + 1.3)) * 0.3;
+              const breathe = 0.5 + 0.5 * Math.sin(t * 0.04 + i * 0.9);
+              const amp   = (shape * 0.6 + breathe * 0.4) * H * 0.18 + 4;
+              const halfH = Math.min(amp, H * 0.18);
+      
+              const grad = ctx.createLinearGradient(0, cy - halfH, 0, cy + halfH);
+              grad.addColorStop(0,    `rgba(${c.r}, ${c.g}, ${c.b}, 0)`);
+              grad.addColorStop(0.12, `rgba(${c.r}, ${c.g}, ${c.b}, 0.85)`);
+              grad.addColorStop(0.5,  `rgba(${c.r}, ${c.g}, ${c.b}, 0.95)`);
+              grad.addColorStop(0.88, `rgba(${c.r}, ${c.g}, ${c.b}, 0.85)`);
+              grad.addColorStop(1,    `rgba(${c.r}, ${c.g}, ${c.b}, 0)`);
+      
+              ctx.fillStyle = grad;
+              ctx.beginPath();
+              ctx.roundRect(bx - BAR_W / 2, cy - halfH, BAR_W, halfH * 2, 1.5);
+              ctx.fill();
+            }
+          }
+      
+          return { hero, title, accentWord: hero.querySelector('.accent-word'), resize, draw };
+        }
+      
+        /* ── 3. Portrait: the wave cut along the horizontal axis ──
+           One half grows UP from the title's top edge, the other DOWN from its bottom edge.
+           Both use the same length each frame, so they are exact mirror images. */
+      
+        function makePortrait() {
+          const hero   = document.getElementById('hero-portrait');
+          const canvas = document.getElementById('waveCanvasPortrait');
+          const ctx    = canvas.getContext('2d');
+          const title  = hero.querySelector('.hero-title-portrait');
+      
+          const TIP_RADIUS  = 1.5;
+          const TITLE_INSET = 0;   // px: + moves baselines away from the title, - moves them into it
+      
+          let W, H, maxBar, yTop, yBot;
+      
+          function resize() {
+            const heroRect  = hero.getBoundingClientRect();
+            const titleRect = title.getBoundingClientRect();
+      
+            // The title's top margin (from --wave-reach in CSS) is the room for the wave halves.
+            const reach = parseFloat(getComputedStyle(title).marginTop);
+            maxBar = reach * 0.75;
+      
+            W = hero.clientWidth;
+            H = titleRect.height + reach * 2;
+            yTop = reach - TITLE_INSET;                        // baseline A (title top edge)
+            yBot = reach + titleRect.height + TITLE_INSET;     // baseline B (title bottom edge)
+      
+            // crisp bars on high-DPI screens
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width  = Math.round(W * dpr);
+            canvas.height = Math.round(H * dpr);
+            canvas.style.width  = W + 'px';
+            canvas.style.height = H + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      
+            canvas.style.top = (titleRect.top - heroRect.top - reach) + 'px';
+          }
+      
+          // One half-bar attached at baseY; dir = -1 grows up, +1 grows down.
+          function drawHalf(x, baseY, dir, len, c) {
+            const tipY = baseY + dir * len;
+      
+            const grad = ctx.createLinearGradient(0, baseY, 0, tipY);
+            grad.addColorStop(0,    `rgba(${c.r}, ${c.g}, ${c.b}, 0.95)`);
+            grad.addColorStop(0.76, `rgba(${c.r}, ${c.g}, ${c.b}, 0.85)`);
+            grad.addColorStop(1,    `rgba(${c.r}, ${c.g}, ${c.b}, 0)`);
+            ctx.fillStyle = grad;
+      
+            // round only the tip corners
+            const radii = dir < 0
+              ? [TIP_RADIUS, TIP_RADIUS, 0, 0]
+              : [0, 0, TIP_RADIUS, TIP_RADIUS];
+      
+            ctx.beginPath();
+            ctx.roundRect(x - BAR_W / 2, Math.min(baseY, tipY), BAR_W, len, radii);
+            ctx.fill();
+          }
+      
+          function draw(t, c) {
+            ctx.clearRect(0, 0, W, H);
+      
+            const count   = Math.floor(W / STEP);
+            const offsetX = (W - count * STEP) / 2;
+      
+            for (let i = 0; i < count; i++) {
+              const bx   = offsetX + i * STEP + BAR_W / 2;
+              const norm = i / count;
+              const shape = Math.abs(Math.sin(norm * Math.PI * 3.2)) * 0.7
+                          + Math.abs(Math.sin(norm * Math.PI * 1.7 + 1.3)) * 0.3;
+              const breathe = 0.5 + 0.5 * Math.sin(t * 0.04 + i * 0.9);
+      
+              // computed once, used for both halves: this keeps them mirrored
+              const len = Math.min((shape * 0.6 + breathe * 0.4) * maxBar + 4, maxBar);
+      
+              drawHalf(bx, yTop, -1, len, c);
+              drawHalf(bx, yBot, +1, len, c);
+            }
+          }
+      
+          return { hero, title, accentWord: hero.querySelector('.accent-word'), resize, draw };
+        }
+      
+        /* ── 4. Switcher: pick the right version, run the loop, keep observers in sync ── */
+      
+        const landscape = makeLandscape();
+        const portrait  = makePortrait();
+      
+        let active = null;     // whichever of the two is currently shown
+        let t = 0;             // animation clock (shared, so the colour cycle continues across a switch)
+        let animId = null;
+      
+        function frame() {
+          const c = getColors(t);
+      
+          // recolour the VISIBLE hero's accent word, and the buttons
+          active.accentWord.style.color = `rgb(${c.r}, ${c.g}, ${c.b})`;
+          buttons.forEach(el => { el.style.background = `rgb(${c.rb}, ${c.gb}, ${c.bb})`; });
+      
+          active.draw(t, c);
+          t++;
+          animId = requestAnimationFrame(frame);
+        }
+        function start() { if (!animId) frame(); }
+        function stop()  { cancelAnimationFrame(animId); animId = null; }
+      
+        // Re-measure when the active hero or its title changes size
+        // (window resize, rotation, web font finishing loading).
+        const ro = new ResizeObserver(() => active.resize());
+      
+        // Pause the animation while the active hero is scrolled out of view (perf).
+        // An observer always reports once right after observe(), so this also starts the loop.
+        const visObs = new IntersectionObserver(entries => {
+          const e = entries[entries.length - 1];
+          if (e.isIntersecting) start(); else stop();
+        }, { threshold: 0 });
+      
+        function activate(version) {
+          stop();
+          active = version;
+      
+          ro.disconnect();
+          ro.observe(active.hero);
+          ro.observe(active.title);
+      
+          visObs.disconnect();
+          visObs.observe(active.hero);
+      
+          active.resize();
+        }
+      
+        // Switch automatically whenever the window crosses the breakpoint.
+        mq.addEventListener('change', e => activate(e.matches ? portrait : landscape));
+        document.fonts.ready.then(() => active.resize());
+      
+        activate(mq.matches ? portrait : landscape);
+      
+      })();
 
 /* ── Active nav link on scroll ── */
 const sections = document.querySelectorAll('section[id], div[id]');
