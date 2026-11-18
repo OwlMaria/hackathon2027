@@ -1136,7 +1136,7 @@ u {
     .prizes-row { grid-template-columns: 1fr; }
     nav { padding: 0 1rem; }
     .nav-links { display: none; }
-    .wave-divider-bars { zoom: 0.65; }
+    .wave-divider-bars { zoom: 0.5; }
     section { padding: 5rem 1.25rem; }
     .form-row { grid-template-columns: 1fr; }
     .register-box { padding: 2.5rem 1.5rem; }
