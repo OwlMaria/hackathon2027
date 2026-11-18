@@ -16,6 +16,7 @@
 nav {
     height: var(--nav-h);         
     padding-inline: max(2rem, calc((100% - 1100px) / 2 + 2rem));
+    position: static;
 }
 
 .nav-home {
@@ -48,7 +49,8 @@ section.page-section {
 
 @media (max-width: 720px) {
     section.page-section { background-image: none; }   
-    nav { padding-inline: 1.25rem; }
+    nav { padding-inline: 1.25rem; display: flex;}
+    .nav-title {display: none;}
 }
 
 </style>
