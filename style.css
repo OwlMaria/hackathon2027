@@ -525,7 +525,6 @@ section {
 
 .timeline {
     position: relative;
-    /*padding-left: 2rem;*/
     text-align: left;
 
     max-width: 560px;
@@ -778,7 +777,6 @@ section {
 /* ── JUDGES ── */
 .judges-grid {
     display: grid;
-    /*grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));*/
     grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--border);
@@ -824,7 +822,6 @@ section {
 .judge-role {
     font-family: var(--font-mono);
     font-size: 12px;
-    /*font-style: italic;*/
     font-weight: 300;
     color: var(--muted2);
     margin-bottom: 4px;
@@ -1071,8 +1068,6 @@ details[open] .faq-q::after { transform: rotate(45deg); color: var(--accent); }
 
 /* ── FOOTER ── */
 .footer-logo {
-    /*border-top: 1px solid var(--border);*/
-    /*padding: 2.5rem 2rem;*/
     padding: 1rem 2rem 1rem;
     max-width: 1100px;
     margin: 0 auto;
@@ -1097,15 +1092,14 @@ footer {
 }
 
 .footer-row {
-    width: 100%;                      /* fill the footer, so the two ends reach the left and right edges */
+    width: 100%;                      
     display: flex;
-    justify-content: space-between;   /* new element left, list right */
+    justify-content: space-between;   
     align-items: center;
-    flex-wrap: wrap;                  /* stacks on very narrow screens instead of overflowing */
+    flex-wrap: wrap;                  
     gap: 1rem 1.5rem;
 }
 
-/* same look as the list links: just add .footer-left to the existing selector */
 .footer-links a,
 .footer-left {
     font-family: var(--font-mono);
@@ -1119,8 +1113,7 @@ footer {
 .footer-links a:hover,
 a.footer-left:hover { color: var(--muted2); }
 
-/*.footer-links { display: flex; gap: 1.5rem; list-style: none; }*/
-.footer-links { display: flex; gap: 1.5rem; list-style: none; align-self: flex-start; }
+.footer-links { display: flex; gap: 1.5rem; list-style: none; }
 
 .footer-links a {
     font-family: var(--font-mono);
@@ -1162,4 +1155,9 @@ u {
     .register-box { padding: 2.5rem 1.5rem; }
     footer { flex-direction: column; gap: 1.5rem; text-align: center; }
     .footer-links { justify-content: center; }
+    .footer-row {
+        flex-direction: column;   
+        align-items: center;      
+        gap: 1rem;
+    }
 }
