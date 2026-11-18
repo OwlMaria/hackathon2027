@@ -1096,7 +1096,31 @@ footer {
     text-align: center;
 }
 
-.footer-links { display: flex; gap: 1.5rem; list-style: none; }
+.footer-row {
+    width: 100%;                      /* fill the footer, so the two ends reach the left and right edges */
+    display: flex;
+    justify-content: space-between;   /* new element left, list right */
+    align-items: center;
+    flex-wrap: wrap;                  /* stacks on very narrow screens instead of overflowing */
+    gap: 1rem 1.5rem;
+}
+
+/* same look as the list links: just add .footer-left to the existing selector */
+.footer-links a,
+.footer-left {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.2s;
+}
+.footer-links a:hover,
+a.footer-left:hover { color: var(--muted2); }
+
+/*.footer-links { display: flex; gap: 1.5rem; list-style: none; }*/
+.footer-links { display: flex; gap: 1.5rem; list-style: none; align-self: flex-start; }
 
 .footer-links a {
     font-family: var(--font-mono);
