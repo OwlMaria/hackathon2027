@@ -118,7 +118,7 @@ nav {
 }
 
 #hero-portrait {
-    --wave-reach: 5.5rem;
+    --wave-reach: 10.5rem;
     min-height: 100vh;
     display: none;
     flex-direction: column;
@@ -1120,7 +1120,7 @@ u {
     .about-grid { grid-template-columns: 1fr; }
     .prizes-row { grid-template-columns: 1fr; }
     nav { padding: 0 1rem; }
-    /*.nav-links { display: none; }*/
+    .nav-links { display: none; }
     section { padding: 5rem 1.25rem; }
     .form-row { grid-template-columns: 1fr; }
     .register-box { padding: 2.5rem 1.5rem; }

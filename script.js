@@ -198,9 +198,10 @@ const ctx = canvas.getContext('2d');*/
           const ctx    = canvas.getContext('2d');
           const title  = hero.querySelector('.hero-title-portrait');
       
-          const TIP_RADIUS  = 1.5;
-          const TITLE_INSET = 0;   // px: + moves baselines away from the title, - moves them into it
-      
+          const TITLE_INSET = 24;      // px: + moves the title edges (yTop/yBot) outward, - inward
+          const FEATHER     = 24;     // px: softness of the dimmed band's edges
+          const DIM         = 0.07;   // opacity behind the title (same as landscape mask)
+
           let W, H, maxBar, yTop, yBot;
       
           function resize() {
@@ -225,6 +226,12 @@ const ctx = canvas.getContext('2d');*/
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       
             canvas.style.top = (titleRect.top - heroRect.top - reach) + 'px';
+            const mask = `linear-gradient(to bottom,
+              black 0, black ${yTop - FEATHER}px,
+              rgba(0,0,0,${DIM}) ${yTop + FEATHER}px, rgba(0,0,0,${DIM}) ${yBot - FEATHER}px,
+              black ${yBot + FEATHER}px, black 100%)`;
+            canvas.style.maskImage = mask;
+            canvas.style.webkitMaskImage = mask;   // older Safari
           }
       
           // One half-bar attached at baseY; dir = -1 grows up, +1 grows down.
@@ -260,11 +267,24 @@ const ctx = canvas.getContext('2d');*/
                           + Math.abs(Math.sin(norm * Math.PI * 1.7 + 1.3)) * 0.3;
               const breathe = 0.5 + 0.5 * Math.sin(t * 0.04 + i * 0.9);
       
-              // computed once, used for both halves: this keeps them mirrored
               const len = Math.min((shape * 0.6 + breathe * 0.4) * maxBar + 4, maxBar);
-      
-              drawHalf(bx, yTop, -1, len, c);
-              drawHalf(bx, yBot, +1, len, c);
+
+              const top    = yTop - len;
+              const bottom = yBot + len;
+              const total  = bottom - top;
+              const f      = 0.24 * len / total;   // tip fade = 24% of len, as in the split version
+
+              const grad = ctx.createLinearGradient(0, top, 0, bottom);
+              grad.addColorStop(0,     `rgba(${c.r}, ${c.g}, ${c.b}, 0)`);
+              grad.addColorStop(f,     `rgba(${c.r}, ${c.g}, ${c.b}, 0.85)`);
+              grad.addColorStop(0.5,   `rgba(${c.r}, ${c.g}, ${c.b}, 0.95)`);
+              grad.addColorStop(1 - f, `rgba(${c.r}, ${c.g}, ${c.b}, 0.85)`);
+              grad.addColorStop(1,     `rgba(${c.r}, ${c.g}, ${c.b}, 0)`);
+
+              ctx.fillStyle = grad;
+              ctx.beginPath();
+              ctx.roundRect(bx - BAR_W / 2, top, BAR_W, total, 1.5);
+              ctx.fill();
             }
           }
       
