@@ -1130,7 +1130,7 @@ u {
     .judges-grid { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; }
     .prizes-row { grid-template-columns: 1fr; }
-    nav { padding: 0 1rem; }
+    nav { padding: 0 1rem; display: none;}
     .nav-links { display: none; }
     .wave-divider-bars { zoom: 0.6; }
     section { padding: 5rem 1.25rem; }
