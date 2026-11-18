@@ -869,9 +869,6 @@ section {
 }
 
 .sponsor-tier-dot { width: 6px; height: 6px; border-radius: 50%; }
-.gold .sponsor-tier-dot   { background: #9a7a20; }
-.silver .sponsor-tier-dot { background: #7a8898; }
-.bronze .sponsor-tier-dot { background: #8a6048; }
 
 .sponsor-logos {
     padding: 1.5rem;
@@ -898,7 +895,6 @@ section {
     transition: border-color 0.2s, color 0.2s;
 }
 
-.gold .sponsor-logo-placeholder { min-width: 160px; height: 44px; font-size: 11px; }
 .sponsor-logo-placeholder:hover { border-color: var(--muted2); color: var(--text); }
 
 /* ── FAQ ── */
@@ -1136,7 +1132,7 @@ u {
     .prizes-row { grid-template-columns: 1fr; }
     nav { padding: 0 1rem; }
     .nav-links { display: none; }
-    .wave-divider-bars { zoom: 0.5; }
+    .wave-divider-bars { zoom: 0.6; }
     section { padding: 5rem 1.25rem; }
     .form-row { grid-template-columns: 1fr; }
     .register-box { padding: 2.5rem 1.5rem; }
