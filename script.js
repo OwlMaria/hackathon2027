@@ -1,115 +1,8 @@
-/* ── Waveform / spectrogram animation ── */
-/*const canvas = document.getElementById('waveCanvasLandscape');
-const ctx = canvas.getContext('2d');*/
-//const isPortrait = window.matchMedia('(max-width: 720px)').matches;
-//const canvas = document.getElementById(
-//    isPortrait ? 'waveCanvasPortrait' : 'waveCanvasLandscape'
-//);
-//const ctx = canvas.getContext('2d');
-//let W, H, t = 0, animId;
-
-//function resize() {
-  /*const heroRect  = document.getElementById('hero-landscape').getBoundingClientRect();
-  const titleRect = document.querySelector('.hero-title').getBoundingClientRect();*/
-//  const hero = document.getElementById(
-//    isPortrait ? 'hero-portrait' : 'hero-landscape');
-//  const heroRect = hero.getBoundingClientRect();
-//  const titleRect = hero.querySelector(
-//    isPortrait ? '.hero-title-portrait' : '.hero-title-landscape'
-//  ).getBoundingClientRect();
-  /*const titleRect = hero.querySelector('.hero-title').getBoundingClientRect();*/
-  // canvas spans full page width, height matches title height with some breathing room
-//  const padding = titleRect.height * 0.5;
-//  W = canvas.width  = window.innerWidth;
-//  H = canvas.height = titleRect.height + padding * 2;
-  // position canvas so its vertical centre aligns with the title's vertical centre
-//  const titleMidRelativeToHero = (titleRect.top + titleRect.height / 2) - heroRect.top;
-//  canvas.style.width  = W + 'px';
-//  canvas.style.top    = (titleMidRelativeToHero - H / 2) + 'px';
-//}
-//resize();
-//window.addEventListener('resize', resize);
-
-//function drawWave() {
-//  ctx.clearRect(0, 0, W, H);
-//  const cy = H / 2;
-
-  // slow color cycle between teal (#00c8a0) and pink (#ff2d78)
-//  const cycle = (-Math.cos(t * 0.007) + 1) / 2;
-//  const r = Math.round(0   + cycle * 255);
-//  const g = Math.round(200 - cycle * 155);
-//  const b = Math.round(160 - cycle * 40);
-
-  // inverted cycle for buttons
-//  const cycleInv = 1 - cycle;
-//  const rb = Math.round(0   + cycleInv * 255);
-//  const gb = Math.round(200 - cycleInv * 155);
-//  const bb = Math.round(160 - cycleInv * 40);
-
-//  document.querySelector('.accent-word').style.color = `rgb(${r}, ${g}, ${b})`;
-//  document.querySelectorAll('.btn-primary, .btn-ghost').forEach(el => {
-//    el.style.background = `rgb(${rb}, ${gb}, ${bb})`;
-//  });
-
-//  const barW = 3;
-//  const gap = 10;
-//  const step = barW + gap;
-//  const count = Math.floor(W / step);
-//  const offsetX = (W - count * step) / 2;
-
-//  for (let i = 0; i < count; i++) {
-//    const bx = offsetX + i * step + barW / 2;
-//    const norm = i / count;
-//    const shape = Math.abs(Math.sin(norm * Math.PI * 3.2)) * 0.7
-//                + Math.abs(Math.sin(norm * Math.PI * 1.7 + 1.3)) * 0.3;
-//    const breathe = 0.5 + 0.5 * Math.sin(t * 0.04 + i * 0.9);
-//    const amp = (shape * 0.6 + breathe * 0.4) * H * 0.18 + 4;
-//    const halfH = Math.min(amp, H * 0.18);
-
-//    const grad = ctx.createLinearGradient(0, cy - halfH, 0, cy + halfH);
-//    grad.addColorStop(0,    `rgba(${r}, ${g}, ${b}, 0)`);
-//    grad.addColorStop(0.12, `rgba(${r}, ${g}, ${b}, 0.85)`);
-//    grad.addColorStop(0.5,  `rgba(${r}, ${g}, ${b}, 0.95)`);
-//    grad.addColorStop(0.88, `rgba(${r}, ${g}, ${b}, 0.85)`);
-//    grad.addColorStop(1,    `rgba(${r}, ${g}, ${b}, 0)`);
-//
-//    ctx.fillStyle = grad;
-//    ctx.beginPath();
-//    ctx.roundRect(bx - barW / 2, cy - halfH, barW, halfH * 2, 1.5);
-//    ctx.fill();
-//  }
-
-//  t++;
-//  animId = requestAnimationFrame(drawWave);
-//}
-//drawWave();
-
-/* stop animation when hero scrolls out of view (perf) */
-//const hero = document.getElementById('hero-landscape');
-//const visObs = new IntersectionObserver(([e]) => {
-//  if (e.isIntersecting) { if (!animId) drawWave(); }
-//  else { cancelAnimationFrame(animId); animId = null; }
-//}, { threshold: 0 });
-//visObs.observe(hero);*/
-
-/* ── Waveform / spectrogram animation (landscape + portrait) ──
-   Paste this over the old block in script.js: everything from
-   "/* ── Waveform / spectrogram animation ── *\/" down to "visObs.observe(hero);".
-
-   It is wrapped in a function so none of its variables are global; that way
-   they cannot clash with anything else in script.js (the IPA rain code, etc).
-
-   Overview:
-   1. Shared pieces: breakpoint, bar look, colour cycle.
-   2. makeLandscape(): your original wave, unchanged in behaviour.
-   3. makePortrait():  the wave cut along the horizontal axis (upper + lower half).
-   4. A small "switcher" that picks the right one from the window width, restarts
-      the animation loop, and re-points the observers whenever the width crosses 720px. */
+/* ── Waveform / spectrogram animation (landscape + portrait) ── */
       (function () {
 
         /* ── 1. Shared pieces ── */
       
-        // Same breakpoint as your CSS (@media (max-width: 720px) shows #hero-portrait).
         const mq = window.matchMedia('(max-width: 720px)');
       
         const BAR_W = 3;
@@ -133,7 +26,7 @@ const ctx = canvas.getContext('2d');*/
           };
         }
       
-        /* ── 2. Landscape: your original wave ── */
+        /* ── 2. Landscape ── */
       
         function makeLandscape() {
           const hero   = document.getElementById('hero-landscape');
@@ -188,9 +81,7 @@ const ctx = canvas.getContext('2d');*/
           return { hero, title, accentWord: hero.querySelector('.accent-word'), resize, draw };
         }
       
-        /* ── 3. Portrait: the wave cut along the horizontal axis ──
-           One half grows UP from the title's top edge, the other DOWN from its bottom edge.
-           Both use the same length each frame, so they are exact mirror images. */
+        /* ── 3. Portrait ── */
       
         function makePortrait() {
           const hero   = document.getElementById('hero-portrait');
@@ -232,26 +123,6 @@ const ctx = canvas.getContext('2d');*/
               black ${yBot + FEATHER}px, black 100%)`;
             canvas.style.maskImage = mask;
             canvas.style.webkitMaskImage = mask;   // older Safari
-          }
-      
-          // One half-bar attached at baseY; dir = -1 grows up, +1 grows down.
-          function drawHalf(x, baseY, dir, len, c) {
-            const tipY = baseY + dir * len;
-      
-            const grad = ctx.createLinearGradient(0, baseY, 0, tipY);
-            grad.addColorStop(0,    `rgba(${c.r}, ${c.g}, ${c.b}, 0.95)`);
-            grad.addColorStop(0.76, `rgba(${c.r}, ${c.g}, ${c.b}, 0.85)`);
-            grad.addColorStop(1,    `rgba(${c.r}, ${c.g}, ${c.b}, 0)`);
-            ctx.fillStyle = grad;
-      
-            // round only the tip corners
-            const radii = dir < 0
-              ? [TIP_RADIUS, TIP_RADIUS, 0, 0]
-              : [0, 0, TIP_RADIUS, TIP_RADIUS];
-      
-            ctx.beginPath();
-            ctx.roundRect(x - BAR_W / 2, Math.min(baseY, tipY), BAR_W, len, radii);
-            ctx.fill();
           }
       
           function draw(t, c) {
