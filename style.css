@@ -1100,7 +1100,5 @@ u {
         align-items: center;      
         gap: 1rem;
     }
-    .newsletter-form {
-        max-width: 360spx;
-    }
+    .newsletter-input { min-width: 0; }  
 }
